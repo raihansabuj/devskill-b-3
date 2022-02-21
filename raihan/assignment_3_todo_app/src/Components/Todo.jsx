@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
 import { ListItemText } from "@material-ui/core";
-
+import PanoramaFishEyeIcon from '@material-ui/icons/PanoramaFishEye';
 
 
 const styles ={
@@ -58,8 +58,27 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
-
 const Todo = () =>{
+
+const [task, setTask]=useState("");
+const [error, setError]=useState(false);
+const [taskList, setTaskList]=useState([]);
+const addTask = () =>{
+    if(task.length){ 
+        const prevTask = [...taskList];
+        prevTask.push(task);
+       setTaskList(prevTask);
+    }else{
+        setError(true);
+    }
+};
+const delTask = (task) =>{
+    this.setState({ task: undefined });
+}
+const settaskName = (e) =>{
+    setError(false);
+    setTask(e.target.value);
+}
     return <>
     <Grid item container spacing={2} justifyContent="center" style={styles.section}>
         
@@ -79,13 +98,13 @@ const Todo = () =>{
                             fullWidth
                                 error={error}
                                 id="outlined"
-                                label="Error"
+                                label="Task Name"
                                 defaultValue="Hello World"
-                                helperText={error? "Must fill the task field!"}
+                                helperText={error? "Must fill the task field!":""}
                                 variant="outlined"
                                 value={task}
                             />
-                            <Button onClick={addTask} variant="contained" color="secondary">
+                            <Button sx={{ mt:5 }} onClick={addTask} variant="contained" color="secondary">
                             Add Task
                             </Button>
 
@@ -102,22 +121,28 @@ const Todo = () =>{
                             Task List
                         </Typography>
                          <Grid>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                    <FolderIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary="Single-line item"
-                                    // secondary={secondary ? 'Secondary text' : null}
-                                />
-                                <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="delete">
-                                    <DeleteIcon />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </ListItem>
+                             {taskList.map((task)=>{
+                                 return (
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <Avatar style={{ height:"16px", width:"16px" }}>
+                                            <PanoramaFishEyeIcon style={{ fontSize:"12px" }} />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={task}
+                                        />
+                                        <ListItemSecondaryAction>
+                                            <IconButton onClick={delTask({task})}  edge="end" aria-label="delete">
+                                            <DeleteIcon />
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                    </ListItem>
+                                 )
+                                 
+                                 
+                             })}
+                            
                          </Grid>
                         </CardContent>
                     </CardActionArea>
