@@ -124,7 +124,7 @@ const delTask = (index) =>{
     setTaskList(prevTask);
 }
 const editTask = (index, task) =>{
-    alert(index)
+    //alert(index)
     // this.setState({ task: undefined });
     setEdit(true);
     setTaskIndex(index);
